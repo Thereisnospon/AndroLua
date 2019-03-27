@@ -1,0 +1,43 @@
+apply from: new File(spDir(), 'sp_android_library.gradle')
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+project.group = "com.thereisnospon"
+project.version = SP_PROJECT_VERSION
+
+android {
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=gnu++11 -std=c++11 -fno-rtti -fno-exceptions -Wall"
+            }
+        }
+        ndk {
+            abiFilters "armeabi-v7a", "x86_64","x86"
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    sourceSets {
+//        main.java.srcDirs += 'src/main/kotlin'
+//        main.java.srcDirs += 'src/main/cpp'
+    }
+}
+
+publishAar {
+    up_projectName = "lua-sdk"
+    up_group = project.group
+    up_version = project.version
+}
+
+dependencies {
+    implementation(library["support-v4"])
+    implementation(library["appcompat-v7"])
+    implementation(library["KOTLIN_STDLIB"])
+}
+
